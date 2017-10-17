@@ -1,0 +1,10 @@
+このプロジェクトは、オライリーのIsomorphic Javascriptの記述に沿って作っています。
+途中、ひっかかった部分についてのみコメントしています。
+
+■5章 アプリケーションの基盤
+5.2.4 ECMAScript6からECMAScript5へのトランスパイル
+　P50～P51の手順だけでは、トランスパイルできません（たんにsrcからdistにソースがそのままコピーされるだけ）。
+　https://babeljs.io の記述を参考に、以下を実施しました。
+　npm install --save-dev babel-core  (これは要らないのかも）
+　npm install --save-dev babel-preset-env
+　.babelrc の作成
