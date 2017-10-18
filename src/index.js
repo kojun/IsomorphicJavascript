@@ -1,20 +1,28 @@
 import Hapi from 'hapi';
+import Application from './lib';
+import HelloController from './hello-controller';
+import nunjucks from 'nunjucks';
 
-// Create a server with a host and port
+nunjucks.configure('./dist');
+
 const server = new Hapi.Server();
 server.connection({
     host: 'localhost',
     port: 8000
 });
 
-// Add the route
-server.route({
-    method: 'GET',
-    path:'/hello',
-    handler: function (request, reply) {
-       reply('hello world');
+const application = new Application({
+    '/hello/{name*}': HelloController
+}, {
+    server: server,
+    document: function(application, controller, request, reply, body, callback) {
+        nunjucks.render('./index.html', {body: body}, (err, html) => {
+            if (err) {
+                return callback(err, null);
+            }
+            callback(null, html);
+        });
     }
 });
 
-// Start the server
-server.start();
+application.start();
